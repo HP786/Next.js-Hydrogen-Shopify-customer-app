@@ -14,9 +14,9 @@
 // alone, and also loads an external stylesheet from cdn.shopify.com, not just
 // inline styles.
 const CHAT_CSP_DIRECTIVES = [
-  "script-src 'self' 'unsafe-inline' cdn.shopify.com",
-  "style-src 'self' 'unsafe-inline' cdn.shopify.com",
-  "connect-src 'self' *.shopifyapps.com *.shopifysvc.com wss://*.pusher.com *.pusher.com",
+  "script-src 'self' 'unsafe-inline' cdn.shopify.com *.hcaptcha.com",
+  "style-src 'self' 'unsafe-inline' cdn.shopify.com *.hcaptcha.com",
+  "connect-src 'self' *.shopifyapps.com *.shopifysvc.com wss://*.pusher.com *.pusher.com *.hcaptcha.com",
   'frame-src *.hcaptcha.com',
   'child-src *.hcaptcha.com',
 ].join('; ');

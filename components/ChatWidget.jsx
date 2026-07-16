@@ -6,10 +6,7 @@ import Script from 'next/script';
 // theme (app block `shopify://apps/inbox/blocks/chat/...`) — this app has no
 // theme to render that embed into automatically (theme app extensions only
 // attach to Online Store 2.0 themes), so the same config + loader script is
-// reproduced here by hand. `data-external-identifier` is deliberately
-// omitted: in the theme it's a per-visitor token Shopify generates fresh per
-// browser, not a fixed setting, and the loader falls back to generating its
-// own when it's absent.
+// reproduced here by hand.
 const CHAT_SETTINGS = {
   greetingMessage: '',
   showFeaturedProducts: true,
@@ -70,6 +67,7 @@ export function ChatWidget({ storeDomain }) {
         data-ternary-color="#6A6A6A"
         data-domain={storeDomain}
         data-shop-domain={storeDomain}
+        data-external-identifier="agHt9pFfc3-sdZayfVynvhmsY4I0GoShRhYgUnRNmOI"
       />
       <shopify-chat mode="standalone" mode-switch="" />
     </>
