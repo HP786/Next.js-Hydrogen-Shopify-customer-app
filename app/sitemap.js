@@ -1,14 +1,16 @@
 import { createStorefrontClient, gql } from '@shopify/hydrogen';
 
+import { filterVisibleToCustomer } from '@/lib/access-control';
 import { storefrontConfig } from '@/lib/config';
 
-const siteUrl = process.env.SITE_URL || 'http://localhost:3000';
+const siteUrl = (process.env.SITE_URL || 'http://localhost:3000').replace(/\/+$/, '');
 
 const SITEMAP_QUERY = gql(`
   query Sitemap {
     products(first: 250) {
       nodes {
         handle
+        tags
         updatedAt
       }
     }
@@ -60,7 +62,7 @@ export default async function sitemap() {
     { url: `${siteUrl}/blogs`, changeFrequency: 'weekly', priority: 0.5 },
   ];
 
-  for (const product of data?.products?.nodes ?? []) {
+  for (const product of filterVisibleToCustomer(data?.products?.nodes ?? [])) {
     entries.push({ url: `${siteUrl}/products/${product.handle}`, lastModified: product.updatedAt, changeFrequency: 'daily', priority: 0.7 });
   }
 
