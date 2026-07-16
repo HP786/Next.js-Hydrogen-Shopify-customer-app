@@ -50,18 +50,18 @@ export async function Header() {
   const navItems = [
     { key: 'new-arrivals', title: 'New Arrivals', href: '/collections/all', kind: 'plain' },
     { key: 'best-sellers', title: 'Best Sellers', href: tagPageHref(BEST_SELLERS_TAG), kind: 'plain' },
-    { key: 'shop-by-room', title: 'Shop by Room', href: '/shop#room-guide', kind: 'list', items: ROOM_OPTIONS.map((r) => ({ key: r.tag, title: r.label, href: tagPageHref(r.tag) })) },
+    { key: 'shop-by-room', title: 'Shop by Room', href: '/#room-guide', kind: 'list', items: ROOM_OPTIONS.map((r) => ({ key: r.tag, title: r.label, href: tagPageHref(r.tag) })) },
     {
       key: 'shop-by-collection',
       title: 'Collection',
-      href: '/shop#collection-guide',
+      href: '/#collection-guide',
       kind: 'grid',
       items: COLLECTION_OPTIONS.map((c) => ({ key: c.tag, title: c.label, href: tagPageHref(c.tag), image: collectionImages[c.label]?.url })),
     },
     {
       key: 'shop-by-colour',
       title: 'Colours',
-      href: '/shop#colour-guide',
+      href: '/#colour-guide',
       kind: 'swatches',
       items: COLOR_OPTIONS.map((c) => ({ key: c.tag, title: c.label, href: tagPageHref(c.tag), swatch: c.swatch })),
     },
@@ -89,7 +89,7 @@ export async function Header() {
           <div className="flex items-center gap-4 md:gap-10">
             <MobileMenu shopName={shopName} items={mobileMenuItems} />
 
-            <Link href="/shop" className="shrink-0">
+            <Link href="/" className="shrink-0">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={LOGO_URL} alt={BRAND_NAME} className="h-[34px] w-auto brightness-0 md:h-[42px]" />
             </Link>

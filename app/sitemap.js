@@ -56,7 +56,6 @@ export default async function sitemap() {
 
   const entries = [
     { url: siteUrl, changeFrequency: 'daily', priority: 1 },
-    { url: `${siteUrl}/shop`, changeFrequency: 'daily', priority: 0.9 },
     { url: `${siteUrl}/collections`, changeFrequency: 'daily', priority: 0.8 },
     { url: `${siteUrl}/blogs`, changeFrequency: 'weekly', priority: 0.5 },
   ];

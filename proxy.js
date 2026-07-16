@@ -7,7 +7,7 @@ import { storefrontConfig } from '@/lib/config';
 import { SESSION_COOKIE } from '@/lib/customer-account/config';
 import { refreshSession } from '@/lib/customer-account/auth';
 import { isExpired, parseSession, serializeSession } from '@/lib/customer-account/session';
-import { ensureSalesChannelAttribute } from '@/lib/trade-channel';
+import { ensureSalesChannelAttribute } from '@/lib/sales-channel';
 
 /** @param {import('next/server').NextRequest} request */
 export async function proxy(request) {
@@ -29,7 +29,7 @@ export async function proxy(request) {
     handlers: [cartHandlers],
   });
   if (shopifyRoute) {
-    // Stamp every cart mutation with the trade-storefront attribute, including
+    // Stamp every cart mutation with the retail-storefront attribute, including
     // the very first "add" that creates the cart — this is the only place that
     // reliably sees cart creation, since client-side navigation doesn't re-run
     // the root layout's server component.

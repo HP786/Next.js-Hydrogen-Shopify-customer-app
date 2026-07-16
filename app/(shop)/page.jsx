@@ -158,20 +158,6 @@ export default async function HomePage() {
         </section>
       ) : null}
 
-      {/* TRADE BAND */}
-      <section className="relative overflow-hidden bg-tertiary text-on-tertiary">
-        <div className="relative mx-auto max-w-[900px] px-5 py-[52px] text-center sm:py-[104px] md:px-10">
-          <span className="font-sans text-xs tracking-[0.22em] text-[#c79a6a] uppercase">Trade &amp; Commercial</span>
-          <h2 className="mt-4 mb-[18px] font-sans text-[28px] leading-[1.1] font-semibold md:text-5xl">Designers, architects &amp; stylists &mdash; work with us.</h2>
-          <p className="mx-auto mb-[30px] max-w-[560px] font-sans text-base leading-relaxed text-[#c7cdd3]">
-            Exclusive trade pricing, generous samples, and a team who knows the difference between a 200&times;290 and a 240&times;330 in a real room.
-          </p>
-          <Link href="/" className="inline-block rounded-md bg-on-tertiary px-8 py-[15px] font-sans text-[13px] tracking-[0.13em] text-tertiary uppercase transition hover:bg-white">
-            Register Today
-          </Link>
-        </div>
-      </section>
-
       {/* REVIEWS MARQUEE */}
       <section className="overflow-hidden bg-canvas py-16 md:py-[88px]">
         <div className="mb-9 px-5 text-center">
@@ -274,4 +260,3 @@ function TruckIcon(props) {
     </svg>
   );
 }
-

@@ -6,8 +6,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { useCart, useCartForm } from '@/lib/cart';
 import { formatMoney } from '@/lib/money';
 
-import { TradeDiscountProgress } from './TradeDiscountProgress';
-
 /** Groups bundle ("componentized") child lines under their parent line id. */
 function buildChildrenMap(lines) {
   const children = {};
@@ -25,13 +23,13 @@ function buildChildrenMap(lines) {
   return children;
 }
 
-export function CartContent({ minOrderQuantity }) {
+export function CartContent() {
   return (
     <main className="mx-auto max-w-3xl px-6 py-16">
       <h1 className="font-serif text-4xl text-on-surface">Cart</h1>
       <CartErrorBanner />
       <LineItems />
-      <CartFooter minOrderQuantity={minOrderQuantity} />
+      <CartFooter />
     </main>
   );
 }
@@ -80,13 +78,12 @@ function CartErrorBanner() {
   );
 }
 
-export function CartFooter({ minOrderQuantity }) {
+export function CartFooter() {
   return (
     <div className="mt-8 space-y-6">
       <DiscountCodes />
       <AppliedGiftCards />
       <CartNote />
-      <TradeDiscountProgress minOrderQuantity={minOrderQuantity} />
       <CartTotals />
       <CheckoutButton />
     </div>

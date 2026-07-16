@@ -6,14 +6,13 @@ import { useCart } from '@/lib/cart';
 import { CART_DRAWER_ID, closeCartDrawer, configureOpenCartAction, supportsDialogCommands } from '@/lib/cart-drawer';
 
 import { CartNote, CartTotals, CheckoutButton, DiscountCodes, LineItems } from './Cart';
-import { TradeDiscountProgress } from './TradeDiscountProgress';
 
 const closeCartCommandAttributes = {
   command: 'close',
   commandfor: CART_DRAWER_ID,
 };
 
-export function CartDrawer({ minOrderQuantity }) {
+export function CartDrawer() {
   const hasItems = useCart((s) => s.data.lines.nodes.length > 0);
   const lines = useCart((s) => s.data.lines.nodes);
   const errors = useCart((s) => s.errors);
@@ -73,7 +72,6 @@ export function CartDrawer({ minOrderQuantity }) {
           <footer className="shrink-0 space-y-3 border-t border-surface-container-high px-6 py-4">
             <DiscountCodes />
             <CartNote />
-            <TradeDiscountProgress minOrderQuantity={minOrderQuantity} />
             <CartTotals />
             <CheckoutButton />
           </footer>

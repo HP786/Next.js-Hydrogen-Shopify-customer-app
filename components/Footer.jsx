@@ -46,26 +46,15 @@ function normalizeMenuUrl(url, publicStoreDomain, primaryDomainUrl) {
 }
 
 const QUICK_LINKS = [
-  { label: 'Home', href: '/shop' },
+  { label: 'Home', href: '/' },
   { label: 'All Rugs', href: '/collections/all' },
   { label: 'Best Sellers', href: tagPageHref(BEST_SELLERS_TAG) },
   { label: 'Blogs', href: '/blogs' },
   { label: 'Showroom', href: '/showroom' },
-  { label: 'Trade Program', href: '/' },
   { label: 'Wishlist', href: '/wishlist' },
 ];
 
-const TRADE_LINKS = [
-  { key: 'benefits', title: 'Benefits', href: '/#trade-benefits' },
-  { key: 'who', title: "Who it's for", href: '/#trade-who' },
-  { key: 'how', title: 'How it works', href: '/#trade-how' },
-  { key: 'faq', title: 'FAQ', href: '/#trade-faq' },
-  { key: 'login', title: 'Log in', href: '/account/login' },
-  { key: 'apply', title: 'Apply for trade', href: '/trade/registration' },
-];
-
-export async function Footer({ variant = 'shop' } = {}) {
-  const isTrade = variant === 'trade';
+export async function Footer() {
   const [footerData, headerData] = await Promise.all([getFooterData(), getHeaderData()]);
   const menu = footerData?.menu ?? FALLBACK_FOOTER_MENU;
   const publicStoreDomain = process.env.PUBLIC_STORE_DOMAIN;
@@ -87,85 +76,69 @@ export async function Footer({ variant = 'shop' } = {}) {
     <footer className="w-full bg-primary px-6 pt-11 pb-8 text-inverse-on-surface md:px-16 md:pt-[72px]">
       <div className="mx-auto flex max-w-[1320px] flex-col justify-between gap-8 border-b border-inverse-on-surface/15 pb-10 md:flex-row md:items-end md:gap-16">
         <div className="max-w-[280px]">
-          <Link href={isTrade ? '/' : '/shop'} className="mb-4 block">
+          <Link href="/" className="mb-4 block">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={LOGO_URL} alt={shopName} className="h-20 w-auto brightness-0 invert" />
           </Link>
           <p className="mt-4 font-sans text-[13px] leading-relaxed text-inverse-on-surface/60">
-            {isTrade
-              ? 'Wholesale rugs for Australian designers, architects & retailers. Trade pricing, swatch sets and a dedicated account contact.'
-              : 'Premium handmade rugs for Australian homes. Wool, jute & viscose. Designed here, woven to last.'}
+            Premium handmade rugs for Australian homes. Wool, jute &amp; viscose. Designed here, woven to last.
           </p>
         </div>
 
-        {isTrade ? (
-          <div className="w-full md:max-w-xs">
-            <FooterColumn title="Trade Program">
-              {TRADE_LINKS.map((link) => (
-                <Link key={link.key} href={link.href} className="text-inverse-on-surface/70 hover:text-inverse-on-surface">
-                  {link.title}
-                </Link>
-              ))}
-            </FooterColumn>
-          </div>
-        ) : (
-          <div className="w-full md:max-w-md">
-            <h3 className="mb-2 font-sans text-lg font-semibold text-inverse-on-surface">Subscribe to our emails</h3>
-            <p className="mb-3 font-sans text-sm text-inverse-on-surface/60">Join our community and get updates on new arrivals and exclusive offers.</p>
-            <NewsletterForm variant="dark" />
-          </div>
-        )}
+        <div className="w-full md:max-w-md">
+          <h3 className="mb-2 font-sans text-lg font-semibold text-inverse-on-surface">Subscribe to our emails</h3>
+          <p className="mb-3 font-sans text-sm text-inverse-on-surface/60">Join our community and get updates on new arrivals and exclusive offers.</p>
+          <NewsletterForm variant="dark" />
+        </div>
       </div>
 
-      {isTrade ? null : (
-        <div className="mx-auto grid max-w-[1320px] grid-cols-1 gap-6 py-10 sm:grid-cols-2 md:grid-cols-5 md:gap-8">
-          <FooterColumn title="Quick Links">
-            {QUICK_LINKS.map((link) => (
-              <Link key={link.href} href={link.href} className="text-inverse-on-surface/70 hover:text-inverse-on-surface">
-                {link.label}
-              </Link>
-            ))}
-          </FooterColumn>
+      <div className="mx-auto grid max-w-[1320px] grid-cols-1 gap-6 py-10 sm:grid-cols-2 md:grid-cols-5 md:gap-8">
+        <FooterColumn title="Quick Links">
+          {QUICK_LINKS.map((link) => (
+            <Link key={link.href} href={link.href} className="text-inverse-on-surface/70 hover:text-inverse-on-surface">
+              {link.label}
+            </Link>
+          ))}
+        </FooterColumn>
 
-          <FooterColumn title="Rug Collections">
-            {COLLECTION_OPTIONS.map((item) => (
-              <Link key={item.label} href={tagPageHref(item.tag)} className="text-inverse-on-surface/70 hover:text-inverse-on-surface">
-                {item.label}
-              </Link>
-            ))}
-          </FooterColumn>
+        <FooterColumn title="Rug Collections">
+          {COLLECTION_OPTIONS.map((item) => (
+            <Link key={item.label} href={tagPageHref(item.tag)} className="text-inverse-on-surface/70 hover:text-inverse-on-surface">
+              {item.label}
+            </Link>
+          ))}
+        </FooterColumn>
 
-          <FooterColumn title="Rug Colours">
-            {COLOR_OPTIONS.map((item) => (
-              <Link key={item.label} href={tagPageHref(item.tag)} className="text-inverse-on-surface/70 hover:text-inverse-on-surface">
-                {item.label}
-              </Link>
-            ))}
-          </FooterColumn>
+        <FooterColumn title="Rug Colours">
+          {COLOR_OPTIONS.map((item) => (
+            <Link key={item.label} href={tagPageHref(item.tag)} className="text-inverse-on-surface/70 hover:text-inverse-on-surface">
+              {item.label}
+            </Link>
+          ))}
+        </FooterColumn>
 
-          <FooterColumn title="Shop by Room">
-            {ROOM_OPTIONS.map((item) => (
-              <Link key={item.label} href={tagPageHref(item.tag)} className="text-inverse-on-surface/70 hover:text-inverse-on-surface">
-                {item.label}
-              </Link>
-            ))}
-          </FooterColumn>
+        <FooterColumn title="Shop by Room">
+          {ROOM_OPTIONS.map((item) => (
+            <Link key={item.label} href={tagPageHref(item.tag)} className="text-inverse-on-surface/70 hover:text-inverse-on-surface">
+              {item.label}
+            </Link>
+          ))}
+        </FooterColumn>
 
-          <FooterColumn title="Support">
-            {supportLinks.map((item) =>
-              item.external ? (
-                <a key={item.key} href={item.href} target="_blank" rel="noopener noreferrer" className="text-inverse-on-surface/70 hover:text-inverse-on-surface">
-                  {item.title}
-                </a>
-              ) : (
-                <Link key={item.key} href={item.href} className="text-inverse-on-surface/70 hover:text-inverse-on-surface">
-                  {item.title}
-                </Link>
-              ),
-            )}
-          </FooterColumn>
-        </div>
-      )}
+        <FooterColumn title="Support">
+          {supportLinks.map((item) =>
+            item.external ? (
+              <a key={item.key} href={item.href} target="_blank" rel="noopener noreferrer" className="text-inverse-on-surface/70 hover:text-inverse-on-surface">
+                {item.title}
+              </a>
+            ) : (
+              <Link key={item.key} href={item.href} className="text-inverse-on-surface/70 hover:text-inverse-on-surface">
+                {item.title}
+              </Link>
+            ),
+          )}
+        </FooterColumn>
+      </div>
 
       <div className="mx-auto grid max-w-[1320px] grid-cols-1 gap-6 border-t border-inverse-on-surface/15 py-8 sm:grid-cols-2 md:grid-cols-4">
         <InfoBlock title="Address">

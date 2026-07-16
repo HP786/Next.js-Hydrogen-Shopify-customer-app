@@ -47,7 +47,7 @@ export function ProductDetails({ product, related }) {
       <main className="bg-canvas text-on-surface">
         <section className="mx-auto max-w-[1320px] px-6 py-6 md:px-16 md:py-8">
           <nav className="mb-[22px] flex items-center gap-2 font-sans text-[12.5px] text-on-surface-variant/80">
-            <Link href="/shop" className="hover:text-secondary">
+            <Link href="/" className="hover:text-secondary">
               Home
             </Link>
             <span>/</span>
@@ -364,14 +364,6 @@ function AddToCart({ product }) {
         {errors.userErrors.length > 0 && <p className="font-sans text-sm text-red-600">{errors.userErrors[0].message}</p>}
       </form>
 
-      <Link
-        href="/"
-        className="flex h-14 w-full items-center justify-center gap-2 border border-secondary font-sans text-xs tracking-[0.1em] text-secondary uppercase transition hover:bg-secondary/5"
-      >
-        <HandshakeIcon className="h-5 w-5" />
-        Join our Trade Program
-      </Link>
-
       {selectedVariant ? (
         <ShopPayButton variants={[{ id: selectedVariant.id, quantity }]} channel="hydrogen" disabled={!addable || pending} width="100%" height="56px" borderRadius="2" />
       ) : null}
@@ -385,15 +377,6 @@ function variantUrl(product, selectedOptions, handle = product.handle, base = ne
   for (const option of selectedOptions) params.set(option.name, option.value);
   const query = params.toString();
   return `/products/${handle}${query ? `?${query}` : ''}`;
-}
-
-function HandshakeIcon(props) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" {...props}>
-      <path d="M2 12h4l3-3 4 4 3-3h6" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M7 9 4 12l3 3M17 9l3 3-3 3" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
 }
 
 function TruckIcon(props) {

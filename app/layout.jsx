@@ -8,7 +8,6 @@ import { CartDrawer } from '@/components/CartDrawer';
 import { ChatWidget } from '@/components/ChatWidget';
 import { Providers } from '@/components/Providers';
 import { BRAND_NAME } from '@/lib/brand';
-import { getTradeDiscountThreshold } from '@/lib/customer-account/client';
 import { getHeaderData } from '@/lib/header';
 import { getInitialCart } from '@/lib/initial-cart';
 import { getShopAnalyticsData } from '@/lib/shop-analytics';
@@ -40,7 +39,7 @@ export async function generateMetadata() {
 }
 
 export default async function RootLayout({ children }) {
-  const [cart, shop, minOrderQuantity] = await Promise.all([getInitialCart(), getShopAnalyticsData(), getTradeDiscountThreshold()]);
+  const [cart, shop] = await Promise.all([getInitialCart(), getShopAnalyticsData()]);
 
   return (
     <html lang="en" className={`${display.variable} ${body.variable}`}>
@@ -49,8 +48,11 @@ export default async function RootLayout({ children }) {
           <Suspense fallback={null}>
             <AnalyticsTracker shop={shop} />
           </Suspense>
+          <div className="pointer-events-none fixed bottom-3 left-3 z-[9999] rounded bg-black px-2.5 py-1 font-sans text-[10px] font-bold tracking-[0.12em] text-white uppercase shadow-lg">
+            Customer Site
+          </div>
           {children}
-          <CartDrawer minOrderQuantity={minOrderQuantity} />
+          <CartDrawer />
           <ChatWidget />
         </Providers>
         <Script
