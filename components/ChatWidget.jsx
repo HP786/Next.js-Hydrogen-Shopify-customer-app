@@ -1,41 +1,77 @@
 'use client';
 
-import { useState } from 'react';
+import Script from 'next/script';
 
-export function ChatWidget() {
-  const [open, setOpen] = useState(false);
+// Shopify Inbox's real embed, extracted directly from the store's own Liquid
+// theme (app block `shopify://apps/inbox/blocks/chat/...`) — this app has no
+// theme to render that embed into automatically (theme app extensions only
+// attach to Online Store 2.0 themes), so the same config + loader script is
+// reproduced here by hand. `data-external-identifier` is deliberately
+// omitted: in the theme it's a per-visitor token Shopify generates fresh per
+// browser, not a fixed setting, and the loader falls back to generating its
+// own when it's absent.
+const CHAT_SETTINGS = {
+  greetingMessage: '',
+  showFeaturedProducts: true,
+  featuredProducts: [],
+  horizontalPosition: 'bottom_right',
+  icon: 'chat_bubble',
+  buttonLabel: 'Chat',
+};
+
+export function ChatWidget({ storeDomain }) {
+  if (!storeDomain) return null;
 
   return (
-    <div className="fixed right-5 bottom-5 z-[61]">
-      {open ? (
-        <div className="absolute right-0 bottom-16 w-[min(300px,calc(100vw-40px))] border border-surface-container-high bg-surface shadow-[0_16px_44px_rgba(30,25,18,0.22)]">
-          <div className="flex items-center justify-between bg-tertiary px-4 py-3.5 text-on-tertiary">
-            <span className="font-sans text-[13.5px] font-semibold">Chat with us</span>
-            <button type="button" onClick={() => setOpen(false)} aria-label="Close chat" className="text-lg leading-none">
-              &times;
-            </button>
-          </div>
-          <div className="p-[18px] font-sans text-[13.5px] leading-relaxed text-on-surface-variant">
-            Hi there 👋 Questions about sizing or delivery? We usually reply within a few minutes.
-          </div>
-        </div>
-      ) : null}
-      <button
-        type="button"
-        onClick={() => setOpen((o) => !o)}
-        aria-label="Open chat"
-        className="flex h-[52px] w-[52px] items-center justify-center rounded-full bg-secondary text-white shadow-[0_8px_24px_rgba(138,75,58,0.4)] transition hover:bg-charcoal-muted"
-      >
-        <ChatIcon />
-      </button>
-    </div>
-  );
-}
-
-function ChatIcon() {
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.6">
-      <path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12z" />
-    </svg>
+    <>
+      <script
+        id="shopify-chat-app-embed-data"
+        type="application/json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({ settings: CHAT_SETTINGS }) }}
+      />
+      <script
+        id="shopify-agent-app-embed-data"
+        type="application/json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({ settings: CHAT_SETTINGS }) }}
+      />
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+            :root {
+              --shopify-chat-bg-color: #FFFFFF;
+              --shopify-agent-bg-color: #FFFFFF;
+              --shopify-chat-text-color: #000000;
+              --shopify-agent-text-color: #000000;
+              --shopify-chat-accent-bg-color: #000000;
+              --shopify-agent-accent-bg-color: #000000;
+              --shopify-chat-accent-text-color: #FFFFFF;
+              --shopify-agent-accent-text-color: #FFFFFF;
+              --shopify-chat-activator-offset: 20px;
+              --shopify-agent-activator-offset: 20px;
+              --shopify-chat-border-radius: 16px;
+              --shopify-agent-border-radius: 16px;
+            }
+          `,
+        }}
+      />
+      <Script
+        id="shopify-chat-bundle-selector"
+        src="https://cdn.shopify.com/extensions/019f6767-7823-7ae4-9b2c-804746d32ed3/shopify-inbox-1289/assets/shopify-chat-bundle-selector.js"
+        strategy="lazyOnload"
+        data-chat-src="https://cdn.shopify.com/storefront/web-components/agent.js"
+        data-agent-src="https://cdn.shopify.com/storefront/web-components/agent.js"
+        data-legacy-src="https://cdn.shopify.com/extensions/019f6767-7823-7ae4-9b2c-804746d32ed3/shopify-inbox-1289/assets/inbox-chat-loader.js"
+        data-horizontal-position="bottom_right"
+        data-vertical-position="lowest"
+        data-icon="chat_bubble"
+        data-text="chat_with_us"
+        data-color="#000000"
+        data-secondary-color="#FFFFFF"
+        data-ternary-color="#6A6A6A"
+        data-domain={storeDomain}
+        data-shop-domain={storeDomain}
+      />
+      <shopify-chat mode="standalone" mode-switch="" />
+    </>
   );
 }

@@ -8,6 +8,7 @@ import { CartDrawer } from '@/components/CartDrawer';
 import { ChatWidget } from '@/components/ChatWidget';
 import { Providers } from '@/components/Providers';
 import { BRAND_NAME } from '@/lib/brand';
+import { storefrontConfig } from '@/lib/config';
 import { getHeaderData } from '@/lib/header';
 import { getInitialCart } from '@/lib/initial-cart';
 import { getShopAnalyticsData } from '@/lib/shop-analytics';
@@ -53,7 +54,7 @@ export default async function RootLayout({ children }) {
           </div>
           {children}
           <CartDrawer />
-          <ChatWidget />
+          <ChatWidget storeDomain={storefrontConfig.storeDomain} />
         </Providers>
         <Script
           src="https://cdn.shopify.com/storefront/standard-actions.js"
