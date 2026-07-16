@@ -7,10 +7,16 @@
 // nonce-based CSP plumbing set up, and Next.js's App Router relies on some
 // inline bootstrap scripts for hydration — a stricter policy here risks
 // breaking the whole site's interactivity, not just the chat widget.
+// Widened to wildcards on Shopify's own infrastructure domains after the first
+// deploy: the real widget (verified via live browser console) calls more
+// *.shopifyapps.com / *.shopifysvc.com endpoints — telemetry, error reporting,
+// captcha session state — than the specific subdomains found by research
+// alone, and also loads an external stylesheet from cdn.shopify.com, not just
+// inline styles.
 const CHAT_CSP_DIRECTIVES = [
   "script-src 'self' 'unsafe-inline' cdn.shopify.com",
-  "style-src 'self' 'unsafe-inline'",
-  "connect-src 'self' shopify-chat.shopifyapps.com messaging-api.shopifyapps.com monorail-edge.shopifysvc.com https://otlp-http-production.shopifysvc.com wss://ws-us2.pusher.com pusher.com *.pusher.com",
+  "style-src 'self' 'unsafe-inline' cdn.shopify.com",
+  "connect-src 'self' *.shopifyapps.com *.shopifysvc.com wss://*.pusher.com *.pusher.com",
   'frame-src *.hcaptcha.com',
   'child-src *.hcaptcha.com',
 ].join('; ');
