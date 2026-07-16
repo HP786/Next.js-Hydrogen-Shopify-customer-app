@@ -1,0 +1,216 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  /* "font-serif" is kept as an alias of the body font — the 2026 redesign moved nearly
+     every heading to Sora. Only the shop hero headline uses the true display serif. */
+  --font-serif: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display-raw), ui-serif, Georgia, serif;
+
+  /* Haus & Harbour theme — warm cream canvas, near-black ink, terracotta accent. */
+  --color-canvas: #faf6ee;
+  --color-background: #faf6ee;
+  --color-surface: #ffffff;
+  --color-surface-dim: #f1ead9;
+  --color-surface-bright: #ffffff;
+  --color-surface-container-lowest: #faf6ee;
+  --color-surface-container-low: #f1ead9;
+  --color-surface-container: #f0ebe1;
+  --color-surface-container-high: #dcd3c4;
+  --color-surface-container-highest: #cabfa9;
+  --color-surface-variant: #d3c9b7;
+  --color-on-surface: #161616;
+  --color-on-surface-variant: #5c554a;
+  --color-on-background: #161616;
+  --color-outline: #cabfa9;
+  --color-outline-variant: #dcd3c4;
+
+  --color-primary: #161616;
+  --color-on-primary: #faf6ee;
+  --color-primary-container: #3f3a32;
+  --color-on-primary-container: #faf6ee;
+  --color-inverse-surface: #161616;
+  --color-inverse-on-surface: #faf6ee;
+  --color-inverse-primary: #8a4b3a;
+
+  --color-secondary: #8a4b3a;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #f1ead9;
+  --color-on-secondary-container: #161616;
+
+  /* Dark banded sections (footer, "how it works") now use near-black ink, not navy. */
+  --color-tertiary: #161616;
+  --color-on-tertiary: #e9e1d4;
+
+  --color-moss: #8a4b3a;
+  /* "charcoal-muted" is the primary-button hover shade throughout the app — terracotta here. */
+  --color-charcoal-muted: #8a4b3a;
+
+  --color-error: #c0392b;
+  --color-on-error: #fdfaf2;
+  --color-error-container: #f4e0d8;
+  --color-on-error-container: #6b1f14;
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--color-canvas);
+  color: var(--color-on-surface);
+  font-family: var(--font-sans);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* 2026 redesign gives every filled/outlined CTA button a 6px radius. Rather than touching
+   every button className across the app, hook the two utility classes that co-occur on
+   every one of them (bg + matching text color) and round those pairings globally.
+   Kept in @layer base so explicit utilities (e.g. rounded-full on the chat button) still win. */
+@layer base {
+  button {
+    border-radius: 0.375rem;
+  }
+
+  .bg-primary.text-on-primary,
+  .border-primary.text-on-surface,
+  .bg-secondary.text-on-secondary,
+  .bg-on-tertiary.text-tertiary,
+  .bg-on-primary.text-primary {
+    border-radius: 0.375rem;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-surface-container-highest);
+  border-radius: 0;
+}
+
+@keyframes hh-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes hh-ken {
+  from {
+    transform: scale(1.001);
+  }
+  to {
+    transform: scale(1.07);
+  }
+}
+
+@keyframes hh-fade {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes hh-pop {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.35);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+ 
+* {
+  box-sizing: border-box;
+}
+ 
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+ 
+::selection {
+  background: rgba(197, 160, 89, 0.35);
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+dialog#cart-drawer {
+  position: fixed;
+  inset-block: 0;
+  right: 0;
+  left: auto;
+  margin: 0;
+  width: 100%;
+  max-width: 28rem;
+  height: 100dvh;
+  max-height: none;
+  border: 0;
+  padding: 0;
+  transform: translateX(100%);
+  transition:
+    transform 250ms cubic-bezier(0.22, 1, 0.36, 1),
+    overlay 250ms allow-discrete,
+    display 250ms allow-discrete;
+}
+
+dialog#cart-drawer[open] {
+  transform: translateX(0);
+}
+
+@starting-style {
+  dialog#cart-drawer[open] {
+    transform: translateX(100%);
+  }
+}
+
+dialog#cart-drawer::backdrop {
+  background: rgb(0 0 0 / 0);
+  transition:
+    background-color 250ms ease-out,
+    overlay 250ms allow-discrete,
+    display 250ms allow-discrete;
+}
+
+dialog#cart-drawer[open]::backdrop {
+  background: rgb(0 0 0 / 0.3);
+}
+
+@starting-style {
+  dialog#cart-drawer[open]::backdrop {
+    background: rgb(0 0 0 / 0);
+  }
+}
+
+body:has(dialog#cart-drawer[open]) {
+  overflow: hidden;
+}
